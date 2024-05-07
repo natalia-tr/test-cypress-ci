@@ -1,3 +1,6 @@
+import { Roles } from "../types/roles"
+import { User } from "../types/user"
+
 export const getFakeLoginResponse = () => {
     return {
         ...getCommonFields(),
@@ -5,7 +8,7 @@ export const getFakeLoginResponse = () => {
     }
 }
 
-export const getRandomUser = () => {
+export const getRandomUser = (): User => {
     return {
         ...getCommonFields(),
         password: generateRandomString(8)
@@ -17,12 +20,12 @@ const getCommonFields = () => {
         username: generateRandomString(8),
         firstName: generateRandomString(8),
         lastName: generateRandomString(8),
-        roles: [ 'ROLE_ADMIN', 'ROLE_CLIENT' ],
+        roles: [ Roles.ROLE_ADMIN, Roles.ROLE_CLIENT ],
         email: `${generateRandomString(8)}@ergo.com`,
     }
 }
 
-const generateRandomString = (length) => {
+const generateRandomString = (length: number) => {
     return Array(length)
         .fill(0)
         .map(() => Math.random().toString(36).charAt(2)).join('');

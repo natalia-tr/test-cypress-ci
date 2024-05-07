@@ -1,51 +1,38 @@
 /// <reference types="cypress" />
 
-import { getFakeLoginResponse } from "../../generators/userGenerator";
+import { alerts } from "../../components/alerts"
+import { getFakeLoginResponse } from "../../generators/userGenerator"
+import { getUsersMocks } from "../../mocks/getUsers"
+import { loginMocks } from "../../mocks/postSignIn"
+import { loginPage } from "../../pages/loginPage"
 
-describe("Login tests in isolation", () => {
-  beforeEach(() => {
-    cy.visit("http://localhost:8081");
-  });
+describe('Login tests in isolation', () => {
+    beforeEach(() => {
+        cy.visit('http://localhost:8081')
+    })
 
-  it("should successfully login", () => {
-    const fakeLoginResponse = getFakeLoginResponse();
+    it('should successfully login', () => {
+        const fakeLoginResponse = getFakeLoginResponse()
+        loginMocks.mockSuccess(fakeLoginResponse)
+        getUsersMocks.mockUsers()
 
-    cy.intercept("POST", "**/users/signin", (req) => {
-      req.reply({
-        statusCode: 200,
-        body: fakeLoginResponse,
-      });
-    });
-    cy.intercept("GET", "**/users", {fixture: "users.json" });
+       // when
+       loginPage.attemptLogin(fakeLoginResponse.username, 'correct')
 
-    cy.get("[name=username]").type(fakeLoginResponse.username);
-    cy.get("[name=password]").type("password");
-    cy.get(".btn-primary").click();
+       // then
+        cy.get('h1').should('contain.text', fakeLoginResponse.firstName)
+    })
 
-    cy.get("h1").should("contain.text", fakeLoginResponse.firstName);
-  });
 
-  it("should not login with wrong credentials", () => {
-    const message = "Invalid username/password supplied";
+    it('should fail to login', () => {
+        const message = "Invalid username/password supplied"
+        loginMocks.mockFailure(message)
 
-    cy.intercept("POST", "**/users/signin", (req) => {
-      req.reply({
-        statusCode: 422,
-        body: {
-            error: "Unprocessable Entity",
-            message: message,
-            path: "/users/signin",
-            status: 422,
-            timestamp: "2024-05-06T15:42:55.176+00:00"
-        },
-      });
-    });
+        // when
+        loginPage.attemptLogin("wrong", "wrong")
 
-    cy.get("[name=username]").type('Wrong');
-    cy.get("[name=password]").type('password');
-    cy.get(".btn-primary").click();
+        // then
+        alerts.verifyFailure(message)
+    })
 
-    cy.get(".alert-danger").should("contain.text", message);
-  });
-
-});
+})
