@@ -2,10 +2,11 @@
 
 
 import { getRandomUser } from "../generators/userGenerator"
+import { User } from "../types/user";
 
 
-let token;
-let user;
+let token: string | undefined;
+let user: User;
 
 
 describe('Home', () => {
@@ -14,7 +15,7 @@ describe('Home', () => {
        cy.register(user)
        cy.login(user.username, user.password)
        cy.getCookie('token').then((cookie) => {
-           token = cookie.value
+           token = cookie?.value // if not 0, assign value
        })
        // click edit na test user
        // find szuka na zawęzonym kontexcie
