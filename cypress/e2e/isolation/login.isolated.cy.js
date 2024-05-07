@@ -16,7 +16,7 @@ describe("Login tests in isolation", () => {
         body: fakeLoginResponse,
       });
     });
-    cy.intercept("GET", "**/users", {fixture: "users.json" });-
+    cy.intercept("GET", "**/users", {fixture: "users.json" });
 
     cy.get("[name=username]").type(fakeLoginResponse.username);
     cy.get("[name=password]").type("password");

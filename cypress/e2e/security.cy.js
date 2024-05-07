@@ -1,11 +1,11 @@
-/// <reference types="cypress" />
+ /// <reference types="cypress" />
 
-import { getRandomUser } from "../generators/userGenerator"
+import { getFakeLoginResponse } from "../generators/userGenerator"
 
 describe('example to-do app', () => {
 
     it('should display login page if we use fake credentials', () => {
-        const user = getRandomUser()
+        const user = getFakeLoginResponse()
         cy.setCookie('token', user.token)
         localStorage.setItem('user', JSON.stringify(user))
 
