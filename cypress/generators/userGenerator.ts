@@ -1,7 +1,8 @@
+import { LoginResponse } from "../types/login"
 import { Roles } from "../types/roles"
 import { User } from "../types/user"
 
-export const getFakeLoginResponse = () => {
+export const getFakeLoginResponse = (): LoginResponse => {
     return {
         ...getCommonFields(),
         token: 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImF1dGgiOlt7ImF1dGhvcml0eSI6IlJPTEVfQURNSU4ifSx7ImF1dGhvcml0eSI6IlJPTEVfQ0xJRU5UIn1dLCJpYXQiOjE3MTQ5OTUxOTQsImV4cCI6MTcxNDk5NTQ5NH0.jkEwIRXrd4Syv8wCzygXPD3wkfPbpBMeb_zY1rh4_FE'
