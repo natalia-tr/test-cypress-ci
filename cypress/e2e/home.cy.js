@@ -8,7 +8,7 @@ let token;
 let user;
 
 
-describe('example to-do app', () => {
+describe('Home', () => {
    beforeEach(() => {
        user = getRandomUser()
        cy.register(user)

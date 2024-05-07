@@ -9,6 +9,5 @@ declare namespace Cypress {
         login(username: string, password: string): void;
 
         register(user: object): void;
-
     }
 }
