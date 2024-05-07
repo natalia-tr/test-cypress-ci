@@ -63,7 +63,6 @@ jobs:
 
   firefox-tests:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v4
       - name: Use Node.js 18
@@ -83,4 +82,27 @@ jobs:
       - run: npm install
       - uses: browser-actions/setup-firefox@v1
       - name: Run Cypress tests
-        run: npx cypress run --browser firefox        
+        run: npx cypress run --browser firefox   
+
+  edge-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js 18
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+      - name: Checkout external repository
+        uses: actions/checkout@v4
+        with:
+          repository: "slawekradzyminski/awesome-localstack"
+          path: "awesome-localstack"
+      - name: Run Docker Compose
+        run: |
+          cd awesome-localstack
+          chmod +x run-docker-compose-ci.sh
+          ./run-docker-compose-ci.sh
+      - run: npm install
+      - uses: browser-actions/setup-edge@v1
+      - name: Run Cypress tests
+        run: npx cypress run --browser edge      
