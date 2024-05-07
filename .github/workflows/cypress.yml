@@ -1,0 +1,20 @@
+name: Cypress training CI
+
+on: push
+ # schedule:
+ # - crone: '0 4 * * 1-5'
+  
+
+jobs:
+  install:
+    runs-on: ubuntu-latest
+
+    steps:
+    # uruchamia sie wewnatrz joba
+    - uses: actions/checkout@v4 # check the latest version 
+    - name: Use Node.js 18
+      uses: actions/setup-node@v4 # check the latest version 
+      with:
+        node-version: 18
+    - run: npm install
+
